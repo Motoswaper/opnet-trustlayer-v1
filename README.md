@@ -1,12 +1,10 @@
 <div align="center">
 
-# 🤖 TrustlessAI v1  
-### **Deterministic AI Job Protocol for OP_NET**
+# 🛡️ TrustLayer v1  
+### **Deterministic Worker Reputation & Attestation Protocol for OP_NET**
 
-A fail‑safe, trustless, AssemblyScript‑based AI job marketplace built for the OP_NET virtual machine.
-
-Workers run AI models off‑chain.  
-The contract handles **escrow, commitments, payouts, and lifecycle** — fully deterministic.
+TrustLayer is the trust backbone of the OP_NET ecosystem.  
+It provides deterministic, on‑chain identity, reputation, attestations, trust tags, and slashing for workers.
 
 <br>
 
@@ -18,8 +16,8 @@ The contract handles **escrow, commitments, payouts, and lifecycle** — fully d
 
 ### 🔗 Quick Links
 
-[📘 TrustlessAI Docs](./docs/TRUSTLESSAI.md) •  
-[🧩 Indexer Schema](./docs/INDEXER_TRUSTLESSAI.md)
+[📘 TrustLayer Docs](./docs/TRUSTLAYER.md) •  
+[🧩 Indexer Schema](./docs/INDEXER_TRUSTLAYER.md)
 
 <br><br>
 
@@ -29,83 +27,84 @@ The contract handles **escrow, commitments, payouts, and lifecycle** — fully d
 
 # 🧬 Overview
 
-**TrustlessAI v1** is a deterministic AI job protocol for OP_NET.
+**TrustLayer v1** is the official trust primitive for OP_NET.
 
 It enables:
 
-- users to create AI tasks  
-- workers to accept tasks  
-- off‑chain AI execution  
-- on‑chain result commitments (hashes)  
-- OP20‑based escrow and payouts  
-- full transparency through events  
+- deterministic worker identity  
+- reputation scoring  
+- attestations (0–100)  
+- trust tags (AI_SAFE, AI_FAST, AI_VERIFIED, etc.)  
+- slashing for malicious behavior  
+- ecosystem‑wide trust integration  
 
-No AI runs on‑chain.  
-Only **money + commitments + lifecycle**.
+TrustLayer is used by:
 
-This ensures:
-
-- deterministic execution  
-- predictable gas  
-- zero ambiguity  
-- indexer‑friendly events  
-- fail‑safe job flow  
+- **TrustlessAI** (AI job marketplace)  
+- **OPSHOP** (P2P marketplace)  
+- **MotoSettle** (settlement layer)  
+- **Wallets & explorers**  
+- **Indexers & dashboards**  
 
 ---
 
 # 📂 Repository Structure
-
 /contracts
-└── TrustlessAI.ts
+└── TrustLayer.ts
 
 /docs
-├── TRUSTLESSAI.md
-└── INDEXER_TRUSTLESSAI.md
+├── TRUSTLAYER.md
+└── INDEXER_TRUSTLAYER.md
 
 README.md
-LICENSE
+LICENS
 
 ---
 
-# 🧱 Contract Features
+# 🧱 Core Features
 
-## 🔵 Job Lifecycle
+## 🔵 Worker Registration
+Workers register with metadata and receive a baseline reputation.
 
-1. **createJob(promptHash, paymentAmount)**  
-   - Escrows OP20 tokens  
-   - Emits `JobCreated`
+## 🟢 Attestations
+Any entity can attest to a worker with a score (0–100).  
+Reputation updates via deterministic moving average.
 
-2. **acceptJob(jobId)**  
-   - Worker claims the job  
-   - Emits `JobAccepted`
+## 🟣 Trust Tags
+Workers can receive capability tags:
 
-3. **submitResult(jobId, resultHash)**  
-   - Worker commits output hash  
-   - Contract pays worker  
-   - Emits `JobCompleted`
+- AI_SAFE  
+- AI_FAST  
+- AI_VERIFIED  
+- HUMAN_REVIEWED  
+- ZK_PROOFED (future)  
 
-4. **cancelJob(jobId)**  
-   - Creator cancels if unassigned  
-   - Refunds payment  
-   - Emits `JobCancelled`
+## 🔥 Slashing
+Workers can be penalized for:
+
+- invalid results  
+- malicious behavior  
+- violating protocol rules  
+
+Slashing reduces reputation and records penalties.
 
 ---
 
 # 🧩 Events
 
-- `JobCreated(jobId, creator, paymentAmount, promptHash)`  
-- `JobAccepted(jobId, worker)`  
-- `JobCompleted(jobId, worker, resultHash)`  
-- `JobCancelled(jobId)`  
+- `WorkerRegistered(worker, metadataHash)`  
+- `TagAdded(worker, tag)`  
+- `Attested(worker, score, newReputation)`  
+- `Slashed(worker, amount, newReputation)`  
 
-These events power explorers, dashboards, and AI marketplaces.
+These events power dashboards, explorers, and trust visualizers.
 
 ---
 
 # 📘 Documentation
 
-- Full protocol spec: [`docs/TRUSTLESSAI.md`](./docs/TRUSTLESSAI.md)  
-- Indexer schema: [`docs/INDEXER_TRUSTLESSAI.md`](./docs/INDEXER_TRUSTLESSAI.md)
+- Full protocol spec: [`docs/TRUSTLAYER.md`](./docs/TRUSTLAYER.md)  
+- Indexer schema: [`docs/INDEXER_TRUSTLAYER.md`](./docs/INDEXER_TRUSTLAYER.md)
 
 ---
 
@@ -117,7 +116,9 @@ MIT — open and free for the OP_NET ecosystem.
 
 <div align="center">
 
-### Built for the OP_NET ecosystem  
-**Deterministic. Minimal. Fail‑safe.**
+### Trust is a first‑class primitive in OP_NET  
+**Deterministic. Transparent. Ecosystem‑wide.**
 
 </div>
+
+
