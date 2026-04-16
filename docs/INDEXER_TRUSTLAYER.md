@@ -1,95 +1,75 @@
-# TrustLayer v1 — Worker Reputation & Attestation Protocol for OP_NET
+# TrustLayer v1 — Indexer Schema
 
-TrustLayer v1 is the official trust primitive for the OP_NET ecosystem.  
-It provides deterministic, on‑chain identity, reputation, attestations, and slashing for workers.
+This schema defines how indexers, explorers, dashboards, and OP_NET dApps should track TrustLayer events and worker profiles.
 
-This enables:
-
-- trust‑scored AI workers  
-- safe job assignment  
-- ecosystem‑wide identity  
-- transparent reputation  
-- deterministic trust checks  
-- slashing for malicious behavior  
-
-TrustLayer is used by protocols like **TrustlessAI**, **OPSHOP**, **MotoSettle**, and future OP_NET primitives.
+TrustLayer provides the trust backbone for the OP_NET ecosystem, enabling deterministic worker identity, reputation, attestations, and slashing.
 
 ---
 
-## 🧱 Core Concepts
+# 🗄️ Tables
 
-### **Worker Profile**
-Each worker has:
+## workers
+Tracks the full trust profile of each worker.
 
-- `reputation` (0–10000)
-- `slashed` (total penalties)
-- `metadataHash` (optional worker metadata)
-- `tags[]` (trust tags like AI_SAFE, AI_FAST, AI_VERIFIED)
-
-### **Attestations**
-Any entity can attest to a worker with a score (0–100).  
-Reputation updates via a deterministic moving average.
-
-### **Trust Tags**
-Tags represent capabilities or certifications:
-
-- `AI_SAFE`
-- `AI_FAST`
-- `AI_VERIFIED`
-- `HUMAN_REVIEWED`
-- `ZK_PROOFED` (future)
-
-### **Slashing**
-Workers can be penalized for:
-
-- invalid results  
-- malicious behavior  
-- violating protocol rules  
-
-Slashing reduces reputation and records penalties.
+| field          | type   | description                         |
+|----------------|--------|-------------------------------------|
+| worker         | string | worker address                      |
+| reputation     | number | 0–10000 trust score                 |
+| slashed        | number | total penalties applied             |
+| metadataHash   | string | optional metadata                   |
+| tags           | array  | trust tags                          |
+| createdAtBlock | number | block of registration               |
 
 ---
 
-## 🧩 Contract Methods
+## attestations
+Tracks all attestations made to workers.
 
-### `registerWorker(metadataHash: string)`
-Registers a worker with baseline reputation.
-
-### `addTag(worker: Address, tag: string)`
-Adds a trust tag to a worker.
-
-### `hasTag(worker: Address, tag: string): bool`
-Checks if a worker has a specific tag.
-
-### `attest(worker: Address, score: u64)`
-Attests to a worker with a score (0–100).
-
-### `slash(worker: Address, amount: u64)`
-Penalizes a worker and reduces reputation.
-
-### `reputation(worker: Address): u64`
-Returns the worker’s current reputation.
+| field          | type   | description                         |
+|----------------|--------|-------------------------------------|
+| id             | string | unique event id                     |
+| worker         | string | worker address                      |
+| score          | number | attestation score (0–100)           |
+| newReputation  | number | updated reputation                  |
+| blockNumber    | number | block number                        |
+| txHash         | string | transaction hash                    |
+| timestamp      | number | unix timestamp                      |
 
 ---
 
-## 🧩 Events
+## tags
+Tracks trust tags assigned to workers.
 
-- `WorkerRegistered(worker, metadataHash)`
-- `TagAdded(worker, tag)`
-- `Attested(worker, score, newReputation)`
-- `Slashed(worker, amount, newReputation)`
+| field          | type   | description                         |
+|----------------|--------|-------------------------------------|
+| worker         | string | worker address                      |
+| tag            | string | trust tag                           |
+| blockNumber    | number | block number                        |
+| txHash         | string | transaction hash                    |
 
 ---
 
-## 🔗 Integration
+## slashes
+Tracks penalties applied to workers.
 
-TrustLayer is designed to integrate with:
+| field          | type   | description                         |
+|----------------|--------|-------------------------------------|
+| worker         | string | worker address                      |
+| amount         | number | penalty amount                      |
+| newReputation  | number | updated reputation                  |
+| blockNumber    | number | block number                        |
+| txHash         | string | transaction hash                    |
 
-- **TrustlessAI** (AI job marketplace)
-- **OPSHOP** (P2P marketplace)
-- **MotoSettle** (settlement layer)
-- **Wallets & explorers**
-- **Indexers**
-- **Reputation dashboards**
+---
 
-TrustLayer provides the **trust backbone** for the OP_NET ecosystem.
+# 🔗 Usage
+
+Indexers should:
+
+- maintain a **worker trust profile**
+- track **reputation evolution**
+- track **tags** and **attestations**
+- track **slashing history**
+- expose APIs for dApps and explorers
+
+TrustLayer is the **trust backbone** for OP_NET.
